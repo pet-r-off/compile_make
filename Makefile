@@ -8,9 +8,12 @@ CFILES   := $(shell find $(SRCDIR) -type f -name *.c)
 HFILES   := $(shell find $(SRCDIR) -type f -name *.h)
 SRCFILES := $(CPPFILES) $(CFILES) $(HFILES)
 
-.PHONY: all clean
+.PHONY: all compile clean
 
-all:
+all: compile
+	./$(OUTDIR)/main
+
+compile:
 	$(CXX) $(SRCFILES) -o $(OUTDIR)/main
 	
 clean:
