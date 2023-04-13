@@ -3,7 +3,7 @@ CXX := g++
 ARM_TOOLCHAIN := arm-linux-gnueabi-
 TPATH   := $(CURDIR)/toolchain/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabi/bin/
 LPATH   := $(CURDIR)/toolchain/sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabi/
-CFLAGS := -Wall -Wextra -std=c++17
+CFLAGS  := -Wall -Wextra -std=c++17
 LDFLAGS :=
 ARCH	:= --sysroot=$(LPATH)
 
@@ -36,7 +36,7 @@ cross:
 
 # Compile for native machine using shared library
 compile_so: so_lib
-	$(CXX) $(CFLAGS) -L$(LIBDIR) -Wl,-rpath=$(LIBDIR) -o $(OUTDIR)/$(EXECUTABLE) $(SRCDIR)/$(NATIVEXEC) -lmath
+	$(CXX) $(CFLAGS) -L$(LIBDIR) -Wl,-rpath=$(LIBDIR) -o $(OUTDIR)/$(NATIVEXEC) $(SRCDIR)/main.cpp -lmath
 
 
 # Compile shared library for native machine
@@ -60,5 +60,5 @@ printenv:
 
 # Clean output
 clean:
+	rm $(OUTDIR)/$(NATIVEXEC) $(OUTDIR)/$(ARMEXEC)
 	rm $(OUTDIR)/lib/*
-	rm $(OUTDIR)/$(NATIVEXEC) $(ARMEXEC)
