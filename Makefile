@@ -48,6 +48,7 @@ so_lib:
 compile:
 	$(CXX) $(CFLAGS) $(SRCFILES) -o $(OUTDIR)/main
 
+
 # Print environment variables
 printenv:
 	@echo "CURDIR:" $(CURDIR)
