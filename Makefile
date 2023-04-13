@@ -23,30 +23,54 @@ NATIVEXEC := x86.out
 ARMEXEC   := arm.out
 
 
-.PHONY: all cross compile_so compile so_lib printenv clean
+.PHONY: all cross_so_exec cross_so_lib cross native_so_exec native_so_lib native printenv clean
 
 
-all: cross compile_so
+all: cross native
+
+
+
+
+#########
+# CROSS
+#########
+
+# Compile for native machine using shared library
+cross_so_exec: cross_so_lib
+	$(TPATH)$(ARM_TOOLCHAIN)$(CXX) $(CFLAGS) -L$(LIBDIR) -Wl,-rpath=$(LIBDIR) -o $(OUTDIR)/$(ARMEXEC) $(SRCDIR)/main.cpp -lmath
+
+
+# Compile shared library for arm_linux_gnueabi
+cross_so_lib:
+	$(TPATH)$(ARM_TOOLCHAIN)$(CXX) $(CFLAGS) -fPIC -shared $(MATH_LIBFILES) -o $(LIBDIR)/libmath.so
 
 
 # Compile for arm_linux_gnueabi
 cross:
-	$(TPATH)$(ARM_TOOLCHAIN)$(CXX) $(CFLAGS) $(ARCH) $(CPPFILES) $(HFILES) -o $(OUTDIR)/$(ARMEXEC) -static
+	$(TPATH)$(ARM_TOOLCHAIN)$(CXX) $(CFLAGS) $(ARCH) $(SRCFILES) -o $(OUTDIR)/$(ARMEXEC) -static
 
+
+
+
+#########
+# NATIVE
+#########
 
 # Compile for native machine using shared library
-compile_so: so_lib
+native_so_exec: native_so_lib
 	$(CXX) $(CFLAGS) -L$(LIBDIR) -Wl,-rpath=$(LIBDIR) -o $(OUTDIR)/$(NATIVEXEC) $(SRCDIR)/main.cpp -lmath
 
 
 # Compile shared library for native machine
-so_lib:
+native_so_lib:
 	$(CXX) $(CFLAGS) -fPIC -shared $(MATH_LIBFILES) -o $(LIBDIR)/libmath.so
 
 
-# Simple compile test
-compile:
-	$(CXX) $(CFLAGS) $(SRCFILES) -o $(OUTDIR)/main
+# Compile for native machine
+native:
+	$(CXX) $(CFLAGS) $(SRCFILES) -o $(OUTDIR)/$(NATIVEXEC)
+
+
 
 
 # Print environment variables
