@@ -9,16 +9,19 @@ CPPFILES := $(shell find $(SRCDIR) -type f -name *.cpp)
 CFILES   := $(shell find $(SRCDIR) -type f -name *.c)
 HFILES   := $(shell find $(SRCDIR) -type f -name *.h)
 SRCFILES := $(CPPFILES) $(CFILES) $(HFILES)
+MATH_LIBFILES := $(shell find $(SRCDIR) -type f -name math.*)
+
 
 .PHONY: all compile_h so_lib clean
+
 
 all: compile_h so_lib
 
 compile_h:
-	$(CXX) $(SRCFILES) -o $(OUTDIR)/main
+	$(CXX) $(CFLAGS) $(SRCFILES) -o $(OUTDIR)/main
 
 so_lib:
-	$(CXX) $(CFLAGS) -fPIC -shared $(SRCDIR)/math.* -o $(OUTDIR)/libmath.so
+	$(CXX) $(CFLAGS) -fPIC -shared $(MATH_LIBFILES) -o $(OUTDIR)/libmath.so
 
 clean:
 	rm -rf $(OUTDIR)/*
