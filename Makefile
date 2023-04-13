@@ -1,6 +1,10 @@
+
+OUTDIR := $(notdir $(CURDIR)/out)
+LOGDIR := $(notdir $(CURDIR)/log)
+
 .PHONY: all clean
 
 all:
-	$(CXX) main.cpp -o main
+	$(CXX) main.cpp -o $(OUTDIR)/main
 clean:
-	rm -rf main
+	rm -rf $(OUTDIR)/*
