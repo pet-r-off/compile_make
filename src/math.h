@@ -4,4 +4,4 @@
 int math(int a, int b);
 void hello_msg();
 
-#endif
+#endif  // _math_h_
