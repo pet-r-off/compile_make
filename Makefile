@@ -23,7 +23,7 @@ NATIVEXEC := x86.out
 ARMEXEC   := arm.out
 
 
-.PHONY: all cross_so_exec cross_so_lib cross native_so_exec native_so_lib native printenv clean
+.PHONY: all cross_so_exec cross_so_lib cross native_so_exec native_so_lib native install_cross install_native configure printenv cleanall cleanexec cleanlib
 
 
 all: cross native
@@ -31,9 +31,9 @@ all: cross native
 
 
 
-#########
+###########
 # CROSS
-#########
+###########
 
 # Compile for native machine using shared library
 cross_so_exec: cross_so_lib
@@ -52,9 +52,9 @@ cross:
 
 
 
-#########
+###########
 # NATIVE
-#########
+###########
 
 # Compile for native machine using shared library
 native_so_exec: native_so_lib
@@ -73,16 +73,43 @@ native:
 
 
 
+###########
+# INSTALL
+###########
+
+install_cross:
+
+
+
+install_native:
+
+
+
+
+###########
+# CONFIGURE
+###########
+
+configure:
+	@echo "First variable:" $(1)
+
+
 # Print environment variables
 printenv:
 	@echo "CURDIR:" $(CURDIR)
 	@echo "CC:" $(CC)
 	@echo "CXX:" $(CXX)
 	@echo "SHELL:" $(SHELL)
+	@echo "MAKE:" $(MAKE)
 	@echo "ARM_TOOLCHAIN:" $(TPATH)$(ARM_TOOLCHAIN)
 
 
 # Clean output
-clean:
-	rm $(OUTDIR)/$(NATIVEXEC) $(OUTDIR)/$(ARMEXEC)
+cleanall: cleanexec cleanlib
+
+cleanexec:
+	rm $(OUTDIR)/$(NATIVEXEC)
+	rm $(OUTDIR)/$(ARMEXEC)
+
+cleanlib:
 	rm $(OUTDIR)/lib/*
