@@ -1,5 +1,6 @@
 main
 settings.json
 libmath.so
-main_h
-main_so
+x86.out
+arm.out
+toolchain/*
