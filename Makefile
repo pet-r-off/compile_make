@@ -39,11 +39,9 @@ all: cross native
 cross_so_exec: cross_so_lib
 	$(TPATH)$(ARM_TOOLCHAIN)$(CXX) $(CFLAGS) -L$(LIBDIR) -Wl,-rpath=$(LIBDIR) -o $(OUTDIR)/$(ARMEXEC) $(SRCDIR)/main.cpp -lmath
 
-
 # Compile shared library for arm_linux_gnueabi
 cross_so_lib:
 	$(TPATH)$(ARM_TOOLCHAIN)$(CXX) $(CFLAGS) -fPIC -shared $(MATH_LIBFILES) -o $(LIBDIR)/libmath.so
-
 
 # Compile for arm_linux_gnueabi
 cross:
